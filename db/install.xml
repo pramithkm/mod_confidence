@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/confidence/db" VERSION="2015052902" COMMENT="XMLDB file for Moodle mod/confidence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="confidence" COMMENT="Table for confidence module.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course confidence belongs to"/>
+        <FIELD NAME="name" TYPE="text" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="Course confidence name"/>
+        <FIELD NAME="lock" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course confidence name"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="confidence_record" COMMENT="Table for keep user confidence data.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="confidenceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Reference to confidence id"/>
+        <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User confidence level"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Uesr id"/>
+        <FIELD NAME="attempts" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course confidence name"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="confidence" TYPE="foreign" FIELDS="confidenceid" REFTABLE="confidence" REFFIELDS="id"/>
+        <KEY NAME="user" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
