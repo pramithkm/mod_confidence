@@ -33,3 +33,13 @@ $string['type0'] = 'Confidence';
 $string['type1'] = 'Topic';
 $string['type2'] = 'Item';
 $string['pluginadministration'] = 'Testing';
+
+// Lang en for capability
+$string['confidence:addinstance'] = 'Add instance';
+$string['confidence:evaluate'] = 'Evaluate';
+$string['confidence:evaluateself'] = 'Evaluate self';
+$string['confidence:manage'] = 'Manage';
+$string['confidence:view'] = 'View';
+$string['confidence:signoff'] = 'Sign-off';
+$string['confidence:witnessitem'] = 'Witness topic item completion';
+
