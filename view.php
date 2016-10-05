@@ -41,30 +41,32 @@ if ($id) {
 require_login($course, true, $cm);
 
 // Print the page header.
-$PAGE->set_url('/mod/confidence/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/confidence/view.php', array('id' => $confidence->id));
 $PAGE->set_title(format_string($cm->name));
 $PAGE->set_heading(format_string($cm->name));
 
-$record = $DB->get_record('confidence_record', array('id' => $confidence->id, 'userid' => $USER->id));
-if(!$record) {
-    echo 'Sorry!!! No records found under your name';
+$record = $DB->get_record('confidence_record', array('confidenceid' => $confidence->id, 'userid' => $USER->id));
+$user = $DB->get_record('user', array('id' => $USER->id));
+
+$errmsg = '';
+if (!$user) {
+    $errmsg = "User not recognized!!";
+} else if (!$record) {
+    $errmsg = "No records founder under your name!!";
 }
-
-
 // Output starts here.
 echo $OUTPUT->header();
-
 // Replace the following lines with you own code.
 echo $OUTPUT->heading(format_string($cm->name));
 //$renderer = $PAGE->get_renderer('confidence');
-var_dump($record);
-echo html_writer::start_tag('div', array('class' => 'test'));
-echo "The level of confidence:" .$record->level;
-echo html_writer::end_tag('div');
 
-$attempts= "Number of attempts: ". $record->attempts;
-echo html_writer::tag('div');
-
+if(!empty($errmsg)) {
+    echo html_writer::tag('div', $errmsg, array('class' => 'error'));
+} else {
+    echo html_writer::tag('div', 'Welcome : '. $user->firstname. ' '. $user->lastname);
+    echo html_writer::tag('div', 'The level of confidence (%) :' .$record->level);
+    echo html_writer::tag('div', 'Completed on: '. date('Y-m-d H:i', $record->timecreated));
+}
 
 // Finish the page.
 echo $OUTPUT->footer();

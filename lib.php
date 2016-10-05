@@ -70,6 +70,32 @@ function confidence_delete_instance($id) {
 
 
 /**
+ * Updates an instance of the ojt in the database
+ *
+ * Given an object containing all the necessary data,
+ * (defined by the form in mod_form.php) this function
+ * will update an existing instance with new data.
+ *
+ * @param stdClass $ojt An object from the form in mod_form.php
+ * @param mod_ojt_mod_form $mform The form instance itself (if needed)
+ * @return boolean Success/Fail
+ */
+function confidence_update_instance(stdClass $confidence, mod_confidence_mod_form $mform = null) {
+    global $DB;
+
+    $confidence->timemodified = time();
+    $confidence->id = $confidence->instance;
+
+    // You may have to add extra stuff in here.
+
+    $result = $DB->update_record('confidence', $confidence);
+
+    return $result;
+}
+
+
+
+/**
  * Overwrites the content for the course module for confidence
  * Append the form for user input
  *
@@ -82,18 +108,24 @@ function confidence_cm_info_view(cm_info $cm) {
     // Get level from db for the logged in user
     $coninfo = $DB->get_record('confidence_record', array('confidenceid'=> $cm->instance, 'userid' => $USER->id ));
     $defaultval = 0;
+    $readonly = '';
     if($coninfo) {
+        $readonly = 'readonly';
         $defaultval= $coninfo->level;
     }
-
     // Confidence level form
     $identifier = $cm->modname.'_'.$cm->instance;
-    $output = '<form id="confidence_form" method="POST" action="'.$CFG->wwwroot.'/mod/confidence/data.php">';
-    $output .= '<input name="'.$identifier.'" id="'.$identifier.'" data-instance="'.$cm->instance.'" type="range" min="0" max="100" value="'.$defaultval.'" step="5" />';
-    $output .= '<input name="level" type="hidden" value="'.$defaultval.'" />';
+    $output = '<form id="confidence_form" method="POST" action="'.$CFG->wwwroot.'/mod/confidence/confidence.php">';
+    $output .= '<input '.$readonly. ' name="'.$identifier.'" 
+                    id="'.$identifier.'" data-instance="'.$cm->instance.'" type="range" min="0" max="100" value="'.$defaultval.'" />';
+    $output .= '<input id="def'.$cm->instance.'" name="level" type="hidden" value="'.$defaultval.'" />';
     $output .= '<input name="instance" type="hidden" value="'.$cm->instance.'" />';
-    $output .= '<input name="confidence_submit_'.$cm->instance.'" id="confidence_submit_'.$cm->instance.'" class="noscript" type="submit" />';
+    $btn = '<input name="confidence_submit_'.$cm->instance.'" id="confidence_submit_'.$cm->instance.'" class="noscript" type="submit" />';
+    if(!$readonly) {
+        $output .= $btn;
+    }
     $output .= '</form>';
+    $output .= '<div class="confidence_value_'.$cm->instance.'">'.$defaultval.'</div>';
     $output .= '<div class="confidence_message_'.$cm->instance.'"></div>';
 
     $cm->set_content($output);

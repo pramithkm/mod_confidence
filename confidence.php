@@ -20,6 +20,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+header('Content-type: application/json');
+//echo json_encode($response_array);
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/confidence/lib.php');
 
@@ -27,27 +29,29 @@ require_once($CFG->dirroot.'/mod/confidence/lib.php');
 $level = required_param('level', PARAM_TEXT);
 $instance = required_param('instance', PARAM_TEXT);
 
-$PAGE->set_url('/mod/confidence/data.php', array('level'=>$level, 'instance' => $instance));
+if(!$instance) {
+    exit;
+}
+
+$PAGE->set_url('/mod/confidence/confidence.php', array('level'=>$level, 'instance' => $instance));
 
 /* Availability of the record */
 $row = $DB->get_record('confidence_record', array('confidenceid' => intval($instance)));
 
 if($_POST) {
-    $level= $_POST['confidence_'.$instance]. '<br>';
+    $level= $_POST['confidence_'.$instance];
 }
 
 $record = new stdClass();
 $record->confidenceid = intval($instance);
 $record->level = intval($level);
 $record->userid = intval($USER->id);
-$record->lock = 0;
+$record->timecreated = time();
 
 if ($row) {
     $record->id = $row->id;
-    $record->attempts = $row->attempts + 1;
     $DB->update_record('confidence_record', $record);
 } else {
-    $record->attempts = 0;
     $DB->insert_record('confidence_record', $record);
 }
 
@@ -58,5 +62,3 @@ if (!empty($referer)) {
 } else {
     redirect('view.php?id='.$course->id);
 }
-
-

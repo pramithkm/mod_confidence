@@ -9,7 +9,6 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course confidence belongs to"/>
         <FIELD NAME="name" TYPE="text" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="Course confidence name"/>
-        <FIELD NAME="lock" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course confidence name"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
@@ -26,7 +25,7 @@
         <FIELD NAME="confidenceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Reference to confidence id"/>
         <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User confidence level"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Uesr id"/>
-        <FIELD NAME="attempts" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course confidence name"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
