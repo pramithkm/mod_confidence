@@ -44,10 +44,10 @@ class mod_confidence_mod_form extends moodleform_mod {
         $mform = $this->_form;
 
         // Adding the "general" fieldset, where all the common settings are showed.
-        $mform->addElement('header', 'general', 'Lang - Topic for Confidence');
+        $mform->addElement('header', 'general', get_string('label_section_name', 'confidence'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', 'Lang Label conf' , array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('label_name', 'confidence') , array('size' => '64'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);

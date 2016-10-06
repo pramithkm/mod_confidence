@@ -40,7 +40,7 @@ $event = \mod_confidence\event\course_module_instance_list_viewed::create($param
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$strname = 'Lang Confidence';
+$strname = get_string('modulename', 'mod_confidence');
 $PAGE->set_url('/mod/confidence/index.php', array('id' => $id));
 $PAGE->navbar->add($strname);
 $PAGE->set_title("$course->shortname: $strname");

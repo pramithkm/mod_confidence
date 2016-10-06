@@ -20,9 +20,11 @@ $('[id*="confidence_" ]').change(function() {
         success: function (data) {
             if (data == 'avail') {
                 $('#confidence_'+instance).val(def);
+                $('.confidence_message_'+instance).addClass('alert alert-danger');
                 msg = "Record already available";
             } else {
                 $('.confidence_value_'+instance).html(level);
+                $('.confidence_message_'+instance).addClass('alert alert-success');
                 msg = "Confidence level changed";
             }
             $('.confidence_message_'+instance).html(msg);

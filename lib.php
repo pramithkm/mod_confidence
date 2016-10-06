@@ -115,18 +115,21 @@ function confidence_cm_info_view(cm_info $cm) {
     }
     // Confidence level form
     $identifier = $cm->modname.'_'.$cm->instance;
-    $output = '<form id="confidence_form" method="POST" action="'.$CFG->wwwroot.'/mod/confidence/confidence.php">';
-    $output .= '<input '.$readonly. ' name="'.$identifier.'" 
+    $output = '<div class="confidence_module">';
+    $output .= '<form method="POST" action="'.$CFG->wwwroot.'/mod/confidence/confidence.php">';
+    $output .= '<input '.$readonly. ' name="'.$identifier.'" class="confidence-slider"
                     id="'.$identifier.'" data-instance="'.$cm->instance.'" type="range" min="0" max="100" value="'.$defaultval.'" />';
     $output .= '<input id="def'.$cm->instance.'" name="level" type="hidden" value="'.$defaultval.'" />';
     $output .= '<input name="instance" type="hidden" value="'.$cm->instance.'" />';
-    $btn = '<input name="confidence_submit_'.$cm->instance.'" id="confidence_submit_'.$cm->instance.'" class="noscript" type="submit" />';
+    $sub_btn = '<input name="confidence_submit_'.$cm->instance.'" id="confidence_submit_'.$cm->instance.'" class="noscript" type="submit" />';
+
     if(!$readonly) {
-        $output .= $btn;
+        $output .= $sub_btn;
     }
     $output .= '</form>';
-    $output .= '<div class="confidence_value_'.$cm->instance.'">'.$defaultval.'</div>';
-    $output .= '<div class="confidence_message_'.$cm->instance.'"></div>';
+    $output .= '<div class="confidence-value confidence_value_'.$cm->instance.'">'.$defaultval.'</div>';
+    $output .= '<div class="confidence-msg confidence_message_'.$cm->instance.'"></div>';
+    $output .= '</div>';
 
     $cm->set_content($output);
 }

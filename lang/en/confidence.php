@@ -43,3 +43,6 @@ $string['confidence:view'] = 'View';
 $string['confidence:signoff'] = 'Sign-off';
 $string['confidence:witnessitem'] = 'Witness topic item completion';
 
+// Generic
+$string['label_section_name'] = 'Confidence Settings';
+$string['label_name'] = 'Name';

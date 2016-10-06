@@ -52,7 +52,7 @@ $errmsg = '';
 if (!$user) {
     $errmsg = "User not recognized!!";
 } else if (!$record) {
-    $errmsg = "No records founder under your name!!";
+    $errmsg = "No records found under your name!!";
 }
 // Output starts here.
 echo $OUTPUT->header();
@@ -61,11 +61,11 @@ echo $OUTPUT->heading(format_string($cm->name));
 //$renderer = $PAGE->get_renderer('confidence');
 
 if(!empty($errmsg)) {
-    echo html_writer::tag('div', $errmsg, array('class' => 'error'));
+    echo html_writer::tag('div', $errmsg, array('class' => 'alert alert-danger'));
 } else {
-    echo html_writer::tag('div', 'Welcome : '. $user->firstname. ' '. $user->lastname);
-    echo html_writer::tag('div', 'The level of confidence (%) :' .$record->level);
-    echo html_writer::tag('div', 'Completed on: '. date('Y-m-d H:i', $record->timecreated));
+    echo html_writer::tag('div', 'Welcome <strong>'. $user->firstname. ' '. $user->lastname.'</strong>, Your confidence level for this instance is,', array('class' => 'confidence-view-welcome'));
+    echo html_writer::tag('div',  $record->level.'%', array('class' => 'confidence-view-value'));
+    echo html_writer::tag('div', 'Completed on: '. date('Y-m-d H:i', $record->timecreated), array('class' => 'confidence-view-created'));
 }
 
 // Finish the page.

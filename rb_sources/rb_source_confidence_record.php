@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author  Eugene Venter <eugene@catalyst.net.nz>
+ * @author  Pramith Dayananda <pramithd@catalyst.net.nz>
  * @package mod_confidence
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -41,7 +41,7 @@ class rb_source_confidence_record extends rb_base_source {
         $this->defaultcolumns = $this->define_defaultcolumns();
         $this->defaultfilters = $this->define_defaultfilters();
         $this->requiredcolumns = $this->define_requiredcolumns();
-        $this->sourcetitle = "Confidence Levels";
+        $this->sourcetitle = get_string('reporttitle', 'rb_source_confidence_record');//"Confidence Levels";
 
         parent::__construct();
     }
@@ -87,7 +87,7 @@ class rb_source_confidence_record extends rb_base_source {
             new rb_column_option(
                 'confidence',
                 'name',
-                'Confidece Name Label',
+                get_string('label_confidence_name', 'rb_source_confidence_record'),
                 'confidence.name',
                 array('joins' => 'confidence', 'displayfunc' => 'confidence_link',
                     'extrafields' => array('userid' => 'base.userid', 'confidenceid' => 'base.confidenceid'))
@@ -95,13 +95,13 @@ class rb_source_confidence_record extends rb_base_source {
             new rb_column_option(
                 'base',
                 'level',
-                'Level Label',
+                get_string('label_level', 'rb_source_confidence_record'),
                 'base.level'
             ),
             new rb_column_option(
                 'base',
                 'timecreated',
-                'Time Recorded Label',
+                get_string('label_timecreated', 'rb_source_confidence_record'),
                 'base.timecreated',
                 array('displayfunc' => 'confidence_time_created',
                         'extrafields' => array ('time' => 'base.timecreated')
@@ -122,9 +122,15 @@ class rb_source_confidence_record extends rb_base_source {
             new rb_filter_option(
                 'coursedata',
                 'name',
-                'Course Name',
+                get_string('filter_coursename', 'rb_source_confidence_record'),
                 'text'
-            )
+            ),
+            new rb_filter_option(
+                'confidence',
+                'name',
+                get_string('filter_confidencename', 'rb_source_confidence_record'),
+                'text'
+            ),
         );
 
         // include some standard filters
