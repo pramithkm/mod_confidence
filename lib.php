@@ -43,6 +43,7 @@
     return $confidence->id;
 }
 
+
 /**
  * Removes an instance of the confidence from the database
  *
@@ -92,7 +93,6 @@ function confidence_update_instance(stdClass $confidence, mod_confidence_mod_for
 
     return $result;
 }
-
 
 
 /**

@@ -4,14 +4,9 @@ $('.noscript').hide();
 $('[id*="confidence_" ]').change(function() {
     var instance = $(this).data('instance');
     var level = $(this).val();
-    var def = $("#def"+instance).val();
-    console.log(def);
     var myurl = M.cfg.wwwroot+'/mod/confidence/confidence.php?level='+level+'&instance='+instance;
-    $('.confidence_message_'+instance).fadeIn(100);
     $.ajax({
         url: myurl,
-        //data: "confidence"+confidence,
-        //data: "name="+$(this).val()+'&value='+idval+'&fromajax=1&sesskey='+M.cfg.sesskey,
         type: 'POST',
         error: function(xhr, status, error) {
             msg = xhr.responseText;
@@ -19,7 +14,6 @@ $('[id*="confidence_" ]').change(function() {
         },
         success: function (data) {
             if (data == 'avail') {
-                $('#confidence_'+instance).val(def);
                 $('.confidence_message_'+instance).addClass('alert alert-danger');
                 msg = "Record already available";
             } else {
@@ -30,5 +24,4 @@ $('[id*="confidence_" ]').change(function() {
             $('.confidence_message_'+instance).html(msg);
         },
     })
-    $('.confidence_message_'+instance).fadeOut(2000);
 });
