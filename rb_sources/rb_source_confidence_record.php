@@ -179,5 +179,14 @@ class rb_source_confidence_record extends rb_base_source {
         return date('Y-m-d H:i', $time);
     }
 
+
+    /**
+     * Global report restrictions are not yet implemented for this source.
+     * @return boolean
+     */
+    public function global_restrictions_supported() {
+        return false;
+    }
+
 }
 
