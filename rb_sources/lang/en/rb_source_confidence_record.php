@@ -27,9 +27,11 @@ $string['reporttitle'] = 'Confidence Levels Report';
 $string['label_confidence_name'] = 'Confidence Name';
 $string['label_level'] = 'Confidence Level';
 $string['label_timecreated'] = 'Time Created';
+$string['label_coursename'] = 'Course Name';
 
 $string['filter_coursename'] = 'Course Name';
 $string['filter_confidencename'] = 'Confidence Name';
 
+$string['type_base'] = 'Confidence Record';
 $string['type_coursedata'] = 'Course Data';
 $string['type_confidence'] = 'Confidence Data';

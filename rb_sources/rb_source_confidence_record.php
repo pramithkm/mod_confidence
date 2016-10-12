@@ -70,7 +70,9 @@ class rb_source_confidence_record extends rb_base_source {
                 'coursedata',
                 'LEFT',
                 '{course}',
-                'confidence.course = coursedata.id'
+                'confidence.course = coursedata.id',
+                REPORT_BUILDER_RELATION_ONE_TO_ONE,
+                'confidence'
             )
         );
         $this->add_user_table_to_joinlist($joinlist, 'base', 'userid');
@@ -120,17 +122,11 @@ class rb_source_confidence_record extends rb_base_source {
     protected function define_filteroptions() {
         $filteroptions = array(
             new rb_filter_option(
-                'coursedata',
-                'name',
-                get_string('filter_coursename', 'rb_source_confidence_record'),
-                'text'
-            ),
-            new rb_filter_option(
                 'confidence',
                 'name',
                 get_string('filter_confidencename', 'rb_source_confidence_record'),
                 'text'
-            ),
+            )
         );
 
         // include some standard filters
@@ -155,6 +151,14 @@ class rb_source_confidence_record extends rb_base_source {
 
     protected function define_defaultcolumns() {
         $defaultcolumns = array(
+            array(
+                'type' => 'confidence',
+                'value' => 'name',
+            ),
+            array(
+                'type' => 'base',
+                'value' => 'level',
+            )
         );
         return $defaultcolumns;
     }
