@@ -21,13 +21,18 @@
  */
 
 header('Content-type: application/json');
-//echo json_encode($response_array);
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/confidence/lib.php');
+require_once($CFG->dirroot .'/totara/core/js/lib/setup.php');
+require_once("{$CFG->libdir}/completionlib.php");
 
 //define('AJAX_SCRIPT', true);
 $level = required_param('level', PARAM_TEXT);
 $instance = required_param('instance', PARAM_TEXT);
+
+$confidence  = $DB->get_record('confidence', array('id' => $instance), '*', MUST_EXIST);
+$course     = $DB->get_record('course', array('id' => $confidence->course), '*', MUST_EXIST);
+$cm         = get_coursemodule_from_instance('confidence', $confidence->id, $course->id, false, MUST_EXIST);
 
 if(!$instance) {
     exit;
@@ -53,6 +58,11 @@ if ($row) {
     $DB->update_record('confidence_record', $record);
 } else {
     $DB->insert_record('confidence_record', $record);
+    // Update completion state
+    $completion=new completion_info($course);
+    if($completion->is_enabled($cm) && $confidence->completiontrack) {
+        $completion->update_state($cm,COMPLETION_COMPLETE, intval($USER->id));
+    }
 }
 
 // Return to previous page

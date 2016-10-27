@@ -30,8 +30,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_confidence';
-$plugin->version = 20160000;
-$plugin->release = 'v0.1';
+$plugin->version = 20160001;
+$plugin->release = 'v0.1.1';
 $plugin->requires = 2013111800;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array();

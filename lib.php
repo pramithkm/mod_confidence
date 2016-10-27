@@ -22,6 +22,19 @@
 
 
 /**
+ * Indicates API features that the forum supports.
+ *
+ * @param string $feature
+ * @return mixed True if yes (some features may use other values)
+ */
+function confidence_supports($feature) {
+    switch($feature) {
+        case FEATURE_COMPLETION_HAS_RULES: return true;
+        default: return null;
+    }
+}
+
+/**
  * Library of interface functions and constants for module confidence
  *
  * All the core Moodle functions, neeeded to allow the module to work
@@ -117,7 +130,7 @@ function confidence_cm_info_view(cm_info $cm) {
     $identifier = $cm->modname.'_'.$cm->instance;
     $output = '<div class="confidence_module">';
     $output .= '<form method="POST" action="'.$CFG->wwwroot.'/mod/confidence/confidence.php">';
-    $output .= '<input '.$readonly. ' name="'.$identifier.'" class="confidence-slider"
+    $output .= '<input '.$readonly.'  name="'.$identifier.'" class="confidence-slider"
                     id="'.$identifier.'" data-instance="'.$cm->instance.'" type="range" min="0" max="100" value="'.$defaultval.'" />';
     $output .= '<input id="def'.$cm->instance.'" name="level" type="hidden" value="'.$defaultval.'" />';
     $output .= '<input name="instance" type="hidden" value="'.$cm->instance.'" />';
@@ -132,4 +145,82 @@ function confidence_cm_info_view(cm_info $cm) {
     $output .= '</div>';
 
     $cm->set_content($output);
+}
+
+
+/**
+ * Obtains the completion progress.
+ *
+ * @param object $cm      Course-module
+ * @param int    $userid  User ID
+ * @return string The current status of completion for the user
+ */
+function confidence_get_completion_progress($cm, $userid) {
+    global $DB;
+
+    // Get completion record
+    $confidence = $DB->get_record('confidence', array('id' => $cm->instance), '*', MUST_EXIST);
+    $result = array();
+    if ($confidence->completiontrack) {
+        $result[] = get_string('completiontrack', 'confidence');
+    }
+
+    return $result;
+
+}
+
+
+/**
+ * Obtains the automatic completion state for this feedback based on the condition
+ * in feedback settings.
+ *
+ * @param object $course Course
+ * @param object $cm Course-module
+ * @param int $userid User ID
+ * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
+ * @return bool True if completed, false if not, $type if conditions not set.
+ */
+function confidence_get_completion_state($course, $cm, $userid, $type) {
+    global $DB;
+
+    $confidence = $DB->get_record('confidence', array('id' => $cm->instance), '*', MUST_EXIST);
+
+    /*if($confidence->completiontrack == 1) {
+        return $type;
+    }*/
+
+    return $DB->record_exists_select('confidence_record', 'confidenceid = ? AND userid = ?', array($cm->instance, $userid));
+}
+
+
+/**
+ * Obtains the specific requirements for completion.
+ *
+ * @param object $cm Course-module
+ * @return array Requirements for completion
+ */
+function confidence_get_completion_requirements($cm) {
+    global $DB;
+
+    $confidence = $DB->get_record('confidence', array('id' => $cm->instance));
+    $result = array();
+
+    if ($confidence->completiontrack) {
+        $result[] = get_string('completiontrack', 'confidence');
+    }
+    return $result;
+}
+
+
+/**
+ * Print a detailed representation of what a  user has done with
+ * a given particular instance of this module, for user activity reports.
+ *
+ * @param object $course
+ * @param object $user
+ * @param object $mod
+ * @param object $feedback
+ * @return bool
+ */
+function confidence_user_complete($course, $user, $mod, $ojt) {
 }

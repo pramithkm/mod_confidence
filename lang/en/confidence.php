@@ -46,3 +46,5 @@ $string['confidence:witnessitem'] = 'Witness topic item completion';
 // Generic
 $string['label_section_name'] = 'Confidence Settings';
 $string['label_name'] = 'Name';
+
+$string['completiontrack'] = 'User must update the confidence level';

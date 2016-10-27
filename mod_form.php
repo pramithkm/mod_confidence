@@ -65,9 +65,14 @@ class mod_confidence_mod_form extends moodleform_mod {
     }
 
     function add_completion_rules() {
+        $mform =& $this->_form;
+        $mform->addElement('checkbox', 'completiontrack', '', 'Student use the slider');
+
+        return array('completiontrack');
     }
 
     function completion_rule_enabled($data) {
+        return !empty($data['completiontrack']);
     }
 
 }
